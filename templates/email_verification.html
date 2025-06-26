@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Set character encoding and mobile responsiveness -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Page title shown in browser tab -->
+    <title>Verify Your Email - Pigment</title>
+    
+    <!-- Inline CSS styles for email layout and design -->
+    <style>
+        /* Base body styles for clean, centered layout */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        /* Container holds the main email content */
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Header section with logo and intro text */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Logo image size */
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        /* Title style (e.g., "Welcome to Pigment!") */
+        .title {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* Subtitle style ("Your personal finance companion") */
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        /* Main message content block */
+        .content {
+            margin-bottom: 30px;
+        }
+
+        /* Primary CTA button ("Verify Email Address") */
+        .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        /* Button hover effect */
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Footer section with sign-off and notice */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        /* Warning box for expiration notice */
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main email container -->
+    <div class="container">
+        
+        <!-- Header with logo and welcome message -->
+        <div class="header">
+            <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(20).png?v=1736693562443" alt="Pigment Logo" class="logo">
+            <h1 class="title">Welcome to Pigment!</h1>
+            <p class="subtitle">Your personal finance companion</p>
+        </div>
+        
+        <!-- Body content with verification details -->
+        <div class="content">
+            <!-- Personalized greeting -->
+            <p>Hi {{ username }},</p>
+            
+            <!-- Message prompting email verification -->
+            <p>Thank you for signing up for Pigment! To complete your registration and start managing your finances, please verify your email address by clicking the button below:</p>
+            
+            <!-- Centered verify button -->
+            <div style="text-align: center;">
+                <a href="{{ verification_url }}" class="button">Verify Email Address</a>
+            </div>
+            
+            <!-- Warning message about link expiration -->
+            <div class="warning">
+                <strong>Important:</strong> This verification link will expire in 24 hours. If you don't verify your email within this time, you'll need to request a new verification email.
+            </div>
+            
+            <!-- Backup link if button fails -->
+            <p>If the button above doesn't work, you can copy and paste this link into your browser:</p>
+            <p style="word-break: break-all; color: #3498db;">{{ verification_url }}</p>
+            
+            <!-- Message for accidental recipients -->
+            <p>If you didn't create an account with Pigment, you can safely ignore this email.</p>
+        </div>
+        
+        <!-- Footer with sign-off and no-reply note -->
+        <div class="footer">
+            <p>Best regards,<br>The Pigment Team</p>
+            <p>This is an automated email. Please do not reply to this message.</p>
+        </div>
+    </div>
+</body>
+</html>

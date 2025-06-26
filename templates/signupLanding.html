@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Link to external CSS for signup landing page styling -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signupLanding.css') }}"/>
+    
+    <!-- Link to Font Awesome for icon usage -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    
+    <!-- Page title -->
+    <title>Pigment</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Navigation bar -->
+      <div class="nav">
+        <div class="navLogo">
+          <!-- Logo image -->
+          <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(20).png?v=1736693562443" alt="pig" />
+          <h3>Pigment</h3>
+        </div>
+        
+        <!-- Navigation menu list -->
+        <ul>
+          <li>
+            <a href="/signupLanding.html">
+              <!-- Home icon -->
+              <i class="fa-solid fa-home"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="/budgeting">
+              <!-- Budgeting icon -->
+              <i class="fa-solid fa-chart-pie"></i>
+              <span>Budgeting</span>
+            </a>
+          </li>
+          <li>
+            <a href="/">
+              <!-- Transaction icon -->
+              <i class="fa-solid fa-coins"></i>
+              <span>Transaction</span>
+            </a>
+          </li>
+          <li>
+            <a href="/contact">
+              <!-- Contact icon -->
+              <i class="fa-solid fa-envelope-open-text"></i>
+              <span>Contact</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Main homepage content area -->
+      <div class="homePage">
+        <!-- Left side container with welcome text and button -->
+        <div class="homeLeftSide">
+          <div class="homeLeftContainer">
+            <h1>Welcome To Pigment</h1>
+            <p>We take pride in helping people from all walks of life achieve the justice and peace they deserve.</p>
+            <!-- Button to control video playback -->
+            <button id="playButton" class="videoButton">Let's Get Started</button>
+          </div>
+        </div>
+        
+        <!-- Right side container for background video -->
+        <div class="homeRightSide">
+          <div class="videoContainer">
+            <!-- Video element with loop, autoplay and muted attributes -->
+            <video loop autoplay muted class="background-clip" id="backgroundVideo">
+              <source src="https://cdn.glitch.global/c9220cc7-4592-41c8-8506-da169dafbe56/demon%20ct%20red%20background.mp4?v=1695701896572" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer section -->
+    <footer>
+      <!-- Top footer containing logo and team members -->
+      <div class="footerTop">
+        <div class="logoGroup">
+          <!-- Footer logo -->
+        <source src="https://cdn.glitch.global/c9220cc7-4592-41c8-8506-da169dafbe56/demon%20ct%20red%20background.mp4?v=1695701896572" type="video/mp4">
+          <h2>
+            Pigement
+          </h2>
+          <h2>
+            -Personal Finance
+          </h2>
+        </div>
+
+        <!-- Team member names in footer -->
+        <div class="peopleFooter">
+          <div>Hansuja Yalaverthi</div>
+          <div>|</div>
+          <div>Ira Tiwari</div>
+          <div>|</div>
+          <div>Grace Gong</div>
+        </div>
+      </div>
+      
+      <!-- Divider line in footer -->
+      <div class="footerDivider">
+        <hr />
+      </div>
+      
+      <!-- Bottom footer with address and copyright -->
+      <div class="footerBottom">
+        <h3>1 Stevenson Dr, Lincolnshire, IL 60069</h3>
+        <h6>@ Kitchen Coders | All Rights Reserved</h6>
+      </div>
+    </footer>
+
+    <!-- JavaScript to handle video play/pause on button click -->
+    <script>
+      // Wait until page loads completely
+      window.addEventListener("load", function () {
+        const video = document.getElementById("backgroundVideo"); // Video element
+        const playButton = document.getElementById("playButton"); // Play/Pause button
+
+        // Add click event listener to button
+        playButton.addEventListener("click", function () {
+          if (video.paused) {
+            video.play(); // Play the video if paused
+            playButton.textContent = "Pause Video"; // Update button text
+          } else {
+            video.pause(); // Pause the video if playing
+            playButton.textContent = "Play Video"; // Update button text
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

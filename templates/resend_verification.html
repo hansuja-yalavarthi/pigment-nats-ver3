@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character encoding and viewport settings for responsive design -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Link to external CSS stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/>
+    
+    <!-- Page title -->
+    <title>Resend Verification - Pigment</title>
+    
+    <!-- Inline styles for flash messages and layout -->
+    <style>
+        /* Flash message base style */
+        .flash-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        /* Flash message for danger (error) */
+        .flash-message.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        /* Flash message for success */
+        .flash-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        /* Flash message for informational messages */
+        .flash-message.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        /* Container for the form, centered and with max width */
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        /* Styling for the back link container */
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        /* Styling for the back link anchor */
+        .back-link a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        /* Hover effect for back link */
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container wrapping entire page content -->
+    <div class="container">
+        <!-- Navigation bar section -->
+        <div class="nav">
+            <div class="navLogo">
+                <!-- Logo image -->
+                <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(20).png?v=1736693562443" alt="pig" />
+                <h3>Pigment</h3>
+            </div>
+            <ul></ul>
+        </div>
+
+        <!-- Main page content divided into left and right sections -->
+        <div class="mainPage">
+            <!-- Left section with image and heading -->
+            <div class="mainPageLeft">
+                <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(21).png?v=1737001704773" alt="Email verification illustration"/>
+                <h2>Verify Your Email</h2>
+            </div>
+
+            <!-- Right section containing the form and messages -->
+            <div class="mainPageRight">
+                <h2>Resend Verification Email</h2>
+                <!-- Instructional text -->
+                <p style="text-align: center; color: #666; margin-bottom: 30px;">
+                    Enter your email address to receive a new verification link.
+                </p>
+                
+                <!-- Display flashed messages (errors, success, info) -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <!-- Form to submit email for verification resend -->
+                <form action="/resend-verification" method="POST" class="form-container">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required><br><br>
+                    
+                    <button type="submit" style="width: 100%;">Send Verification Email</button>
+                </form>
+                
+                <!-- Link back to login page -->
+                <div class="back-link">
+                    <p><a href="/login">← Back to Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

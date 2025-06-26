@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Set character encoding and responsive viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Link to external CSS file for signup page styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}"/>
+    
+    <!-- Page title -->
+    <title>Sign Up</title>
+    
+    <!-- Inline CSS styles for password requirements and error messages -->
+    <style>
+        /* Styling for password requirements text */
+        .requirement {
+            margin: 5px 0;
+            color: #666;
+            font-size: 0.9em;
+        }
+        /* When a requirement is met, color changes to green */
+        .requirement.met {
+            color: #28a745;
+        }
+        /* When a requirement is unmet, color changes to red */
+        .requirement.unmet {
+            color: #dc3545;
+        }
+        /* Space between the icon and the requirement text */
+        .requirement i {
+            margin-right: 5px;
+        }
+        /* Container styling for the password requirements box */
+        #password-requirements {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        /* Styling for error messages shown below inputs, initially hidden */
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container for the page content -->
+    <div class="container">
+        <!-- Navigation bar container -->
+        <div class="nav">
+            <div class="navLogo">
+                <!-- Logo image -->
+                <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(20).png?v=1736693562443" alt="pig" />
+                <h3>Pigment</h3>
+            </div>
+            <ul></ul> <!-- Placeholder for nav links if needed -->
+        </div>
+        
+        <!-- Main content split into left (illustration) and right (form) -->
+        <div class="mainPage">
+            <!-- Left side with image and welcome message -->
+            <div class="mainPageLeft">
+                <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(22).png?v=1737001704636" alt="Sign up illustration" />
+                <h2>Welcome to the family!</h2>
+            </div>
+            
+            <!-- Right side containing the signup form -->
+            <div class="mainPageRight">
+                <h2>Sign Up</h2>
+                
+                <!-- Signup form with POST action and client-side validation on submit -->
+                <form action="/signup" method="POST" id="signupForm" onsubmit="return validateForm()">
+                    <!-- Username input -->
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required><br><br>
+                    
+                    <!-- Email input -->
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required><br><br>
+                    
+                    <!-- Password input with live validation -->
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required onkeyup="validatePassword()"><br>
+                    
+                    <!-- Password requirements checklist displayed under password field -->
+                    <div id="password-requirements">
+                        <div class="requirement" id="length-req">
+                            <i>○</i> At least 7 characters
+                        </div>
+                        <div class="requirement" id="special-req">
+                            <i>○</i> At least one special character
+                        </div>
+                        <div class="requirement" id="number-req">
+                            <i>○</i> At least one number
+                        </div>
+                    </div>
+                    
+                    <!-- Container to show password error messages -->
+                    <div class="error-message" id="password-error"></div>
+                    <br>
+                    
+                    <!-- Submit button for the form -->
+                    <button type="submit" id="submit-btn">Sign Up</button>
+                </form>
+                
+                <!-- Link to login page for existing users -->
+                <p>Already have an account? <a href="/login">Login here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript functions for client-side password validation -->
+    <script>
+        function validatePassword() {
+            // Get the current password value
+            const password = document.getElementById('password').value;
+            
+            // Get references to requirement elements and submit button
+            const lengthReq = document.getElementById('length-req');
+            const specialReq = document.getElementById('special-req');
+            const numberReq = document.getElementById('number-req');
+            const submitBtn = document.getElementById('submit-btn');
+            const passwordError = document.getElementById('password-error');
+            
+            // Check if password length requirement is met
+            if (password.length >= 7) {
+                lengthReq.classList.add('met');
+                lengthReq.classList.remove('unmet');
+                lengthReq.querySelector('i').textContent = '●'; // Filled circle
+            } else {
+                lengthReq.classList.add('unmet');
+                lengthReq.classList.remove('met');
+                lengthReq.querySelector('i').textContent = '○'; // Empty circle
+            }
+            
+            // Check if password contains a special character
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                specialReq.classList.add('met');
+                specialReq.classList.remove('unmet');
+                specialReq.querySelector('i').textContent = '●';
+            } else {
+                specialReq.classList.add('unmet');
+                specialReq.classList.remove('met');
+                specialReq.querySelector('i').textContent = '○';
+            }
+            
+            // Check if password contains a number
+            if (/\d/.test(password)) {
+                numberReq.classList.add('met');
+                numberReq.classList.remove('unmet');
+                numberReq.querySelector('i').textContent = '●';
+            } else {
+                numberReq.classList.add('unmet');
+                numberReq.classList.remove('met');
+                numberReq.querySelector('i').textContent = '○';
+            }
+            
+            // Determine if all requirements are met
+            const allMet = password.length >= 7 && 
+                          /[!@#$%^&*(),.?":{}|<>]/.test(password) && 
+                          /\d/.test(password);
+            
+            // Enable or disable submit button based on validation
+            submitBtn.disabled = !allMet;
+            
+            // Show or hide password error message
+            if (!allMet) {
+                passwordError.style.display = 'block';
+                passwordError.textContent = 'Please meet all password requirements';
+            } else {
+                passwordError.style.display = 'none';
+            }
+        }
+
+        // Form submission validation to prevent submission if password invalid
+        function validateForm() {
+            const password = document.getElementById('password').value;
+            
+            // Check all password requirements
+            const allMet = password.length >= 7 && 
+                          /[!@#$%^&*(),.?":{}|<>]/.test(password) && 
+                          /\d/.test(password);
+            
+            // If requirements not met, show error and prevent form submission
+            if (!allMet) {
+                document.getElementById('password-error').style.display = 'block';
+                return false;
+            }
+            
+            // If valid, allow form submission
+            return true;
+        }
+
+        // Run initial validation on page load to set submit button state
+        document.addEventListener('DOMContentLoaded', function() {
+            validatePassword();
+        });
+    </script>
+</body>
+</html>

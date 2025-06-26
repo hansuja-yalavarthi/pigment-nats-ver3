@@ -1,0 +1,270 @@
+<head>
+    <!-- Link to the custom stylesheet for budgeting page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/budget.css') }}"/>
+    
+    <!-- Link to Font Awesome for icon support -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+</head>
+
+<body>
+    <div class="conMajor">
+        <!-- Sidebar Navigation -->
+        <div class="nav">
+            <div class="navLogo">
+                <!-- Logo image and title -->
+                <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(20).png?v=1736693562443" alt="pig" />
+                <h3>Pigment</h3>
+            </div>
+            <!-- Navigation links -->
+            <ul>
+                <li>
+                    <a href="/loginLanding">
+                        <i class="fa-solid fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/budgeting">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Budgeting</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/">
+                        <i class="fa-solid fa-coins"></i>
+                        <span>Transaction</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/contact">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                        <span>Contact</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- Sign-out confirmation prompt -->
+                    <a href="/logout" onclick="return confirm('Are you sure you want to sign out?')">
+                        <i class="fa-solid fa-sign-out-alt"></i>
+                        <span>Sign Out</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="mainPage">
+            <div class="container">
+                <h1 class="title">Porkfolio</h1>
+
+                <!-- Form to input new budget category and limit -->
+                <section class="form-section">
+                    <h2 class="section-title">Set Your Budget</h2>
+                    <form method="POST" class="budget-form">
+                        <label for="category" class="form-label">Category</label>
+                        <input type="text" id="category" name="category" class="form-input" required><br><br>
+                        <label for="budget_limit" class="form-label">Budget Limit</label>
+                        <input type="number" id="budget_limit" name="budget_limit" class="form-input" required><br><br>
+                        <button type="submit" class="btn">Add Budget</button>
+                    </form>
+                </section>
+
+                <!-- Table displaying current budgets -->
+                <section class="budget-table-section">
+                    <h2 class="section-title">Current Budgets</h2>
+                    <table class="budget-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Budget Limit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for budget in budgets %}
+                            <tr>
+                                <td>{{ budget[1] }}</td>
+                                <td>{{ budget[2] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Form to input a new savings goal -->
+                <section class="form-section">
+                    <h2 class="section-title">Set Your Savings Goal</h2>
+                    <form method="POST" action="{{ url_for('budgeting') }}" class="goal-form">
+                        <label for="goal_name" class="form-label">Goal Name</label>
+                        <input type="text" id="goal_name" name="goal_name" class="form-input" required><br><br>
+                        <label for="target_amount" class="form-label">Target Amount</label>
+                        <input type="number" id="target_amount" name="target_amount" class="form-input" required><br><br>
+                        <label for="current_savings" class="form-label">Current Savings</label>
+                        <input type="number" id="current_savings" name="current_savings" class="form-input" required><br><br>
+                        <label for="due_date" class="form-label">Due Date</label>
+                        <input type="date" id="due_date" name="due_date" class="form-input"><br><br>
+                        <button type="submit" class="btn">Add Savings Goal</button>
+                    </form>
+                </section>
+
+                <!-- Table displaying existing savings goals -->
+                <section class="goal-table-section">
+                    <h2 class="section-title">Current Savings Goals</h2>
+                    <table class="goal-table">
+                        <thead>
+                            <tr>
+                                <th>Goal Name</th>
+                                <th>Target Amount</th>
+                                <th>Current Savings</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for goal in goals %}
+                            <tr>
+                                <td>{{ goal[1] }}</td>
+                                <td>{{ goal[2] }}</td>
+                                <td>{{ goal[3] }}</td>
+                                <td>{{ goal[4] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Section to visualize budget categories as a pie chart -->
+                <section class="chart-section">
+                    <h2 class="section-title">Budget Visualization</h2>
+                    <canvas id="pieChart" class="pie-chart"></canvas>
+                </section>
+
+                <!-- Section to show weekly/monthly spending via bar chart -->
+                <section class="chart-section">
+                    <h2 class="section-title">Spending Reports</h2>
+                    <label for="timePeriod" class="form-label">View By:</label>
+                    <select id="timePeriod" class="form-input">
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                    <canvas id="barChart" class="bar-chart"></canvas>
+                </section>
+
+                <!-- Include Chart.js library for data visualization -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+                <script>
+                    // Render pie chart using budget data from Flask
+                    var pieChartData = {{ pie_chart_data|safe }};
+                    
+                    var ctx = document.getElementById('pieChart').getContext('2d');
+                    var pieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: pieChartData.labels,
+                            datasets: [{
+                                data: pieChartData.data,
+                                backgroundColor: [
+                                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                                    '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        // Custom tooltip to show $ format
+                                        label: function(context) {
+                                            return context.label + ': $' + context.parsed.toFixed(2);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                </script>
+
+                <script>
+                    // Load weekly and monthly data from backend
+                    var weeklyChartData = {{ weekly_chart_data|safe }};
+                    var monthlyChartData = {{ monthly_chart_data|safe }};
+
+                    var barCtx = document.getElementById('barChart').getContext('2d');
+
+                    // Data config for weekly spending
+                    var weeklyData = {
+                        labels: weeklyChartData.labels,
+                        datasets: [{
+                            label: 'Spending',
+                            data: weeklyChartData.data,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    };
+
+                    // Data config for monthly spending
+                    var monthlyData = {
+                        labels: monthlyChartData.labels,
+                        datasets: [{
+                            label: 'Spending',
+                            data: monthlyChartData.data,
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    };
+
+                    // Render bar chart with weekly data as default
+                    var barChart = new Chart(barCtx, {
+                        type: 'bar',
+                        data: weeklyData,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top'
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return context.dataset.label + ': $' + context.parsed.y.toFixed(2);
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Time Period'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Spending Amount ($)'
+                                    },
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+
+                    // Dropdown event listener to switch datasets
+                    document.getElementById('timePeriod').addEventListener('change', function () {
+                        if (this.value === 'weekly') {
+                            barChart.data = weeklyData;
+                        } else if (this.value === 'monthly') {
+                            barChart.data = monthlyData;
+                        }
+                        barChart.update(); // Refresh chart with new dataset
+                    });
+                </script>
+
+            </div>
+        </div>
+    </div>
+</body>

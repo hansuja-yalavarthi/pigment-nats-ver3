@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Link to custom CSS for login landing page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/loginLanding.css') }}"/>
+
+    <!-- Font Awesome CDN for icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    
+    <!-- Page title -->
+    <title>Pigment </title>
+  </head>
+  <body>
+    <div class="container">
+
+      <!-- Navigation bar -->
+      <div class="nav">
+        <div class="navLogo">
+          <!-- Site logo and brand name -->
+          <img src="https://cdn.glitch.global/...png" alt="pig" />
+          <h3>Pigment</h3>
+        </div>
+
+        <!-- Navigation links -->
+        <ul>
+          <li>
+            <a href="/loginLanding">
+              <i class="fa-solid fa-home"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="/budgeting">
+              <i class="fa-solid fa-chart-pie"></i>
+              <span>Budgeting</span>
+            </a>
+          </li>
+          <li>
+            <a href="/">
+              <i class="fa-solid fa-coins"></i>
+              <span>Transaction</span>
+            </a>
+          </li>
+          <li>
+            <a href="/contact">
+              <i class="fa-solid fa-envelope-open-text"></i>
+              <span>Contact</span>
+            </a>
+          </li>
+          <li>
+            <a href="/logout" onclick="return confirm('Are you sure you want to sign out?')">
+              <i class="fa-solid fa-sign-out-alt"></i>
+              <span>Sign Out</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+   
+      <!-- Main landing page content -->
+      <div class="homePage">
+        <!-- Left section with header and welcome message -->
+        <div class="homeLeft">
+          <div class="homeLeftContainer">
+            <h1 class="homeHeader">Welcome to Pigment - The personal finance service</h1>
+            <p class="textBlock">
+              We are committed to helping students from all walks of life take charge of their personal finances and build a foundation for a secure future. Managing money as a student can be challenging, with the demands of tuition, daily expenses, and savings goals. That’s why we provide the tools and resources to make budgeting, tracking expenses, and planning for the future simple and stress-free. Our mission is to equip students with the financial skills they need to thrive today and achieve their dreams tomorrow.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right section with quick access buttons -->
+        <div class="homeRight">
+          <div class="homeRightContainer">
+            <button class="button1">
+              <i class="fa-solid fa-table"></i>
+              <h3>Tracking Tool</h3>
+            </button>
+            <button class="button2">
+              <i class="fa-solid fa-chart-pie"></i>
+              <h3>Budgeting Tool</h3>
+            </button>
+            <button class="button3">
+              <i class="fa-regular fa-calendar-days"></i>
+              <h3>Reports [&] History</h3>
+            </button>
+            <button class="button4">
+              <i class="fa-light fa-clipboard-question"></i>
+              <h3>Inquiries [&] Assistance</h3>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer with branding and credits -->
+    <footer>
+      <div class="footerTop">
+        <!-- Logo and tagline -->
+        <div class="logoGroup">
+          <img src="https://cdn.glitch.global/...png"/>
+          <h2>Pigement</h2>
+          <h2>-Personal Finance</h2>
+        </div>
+
+        <!-- Team credits -->
+        <div class="peopleFooter">
+          <div>Hansuja Yalaverthi</div>
+          <div>|</div>
+          <div>Ira Tiwari</div>
+          <div>|</div>
+          <div>Grace Gong</div>
+        </div>
+      </div>
+
+      <!-- Divider line -->
+      <div class="footerDivider">
+        <hr />
+      </div>
+
+      <!-- Address and copyright -->
+      <div class="footerBottom">
+        <h3>1 Stevenson Dr, Lincolnshire, IL 60069</h3>
+        <h6>@ Kitchen Coders | All Rights Reserved</h6>
+      </div>
+    </footer>
+  </body>
+</html>

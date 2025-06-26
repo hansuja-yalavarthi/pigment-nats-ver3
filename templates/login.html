@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic meta tags for responsiveness and character encoding -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link to external login stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/>
+
+    <!-- Page title -->
+    <title>Login</title>
+
+    <!-- Inline CSS for flash and error messages -->
+    <style>
+        .error-message {
+            color: #dc3545;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+        .flash-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .flash-message.danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Navigation header with logo -->
+    <div class="nav">
+      <div class="navLogo">
+        <!-- Pigment logo and title -->
+        <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(20).png?v=1736693562443" alt="pig" />
+        <h3>Pigment</h3>
+      </div>
+      <ul></ul> <!-- Empty nav list (optional future links) -->
+    </div>
+
+    <!-- Main page content split into left and right columns -->
+    <div class="mainPage">
+
+        <!-- Left side with welcome image and greeting -->
+        <div class="mainPageLeft">
+          <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(21).png?v=1737001704773" alt="women with finance"/>
+          <h2>Glad to see you back!</h2>
+        </div>
+
+        <!-- Right side with login form -->
+        <div class="mainPageRight">
+          <h2>Login</h2>
+
+          <!-- Flask flashed messages for errors or status -->
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="flash-message {{ category }}">{{ message }}</div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+          <!-- Login form -->
+          <form id="loginForm" action="/login" method="POST" onsubmit="return validateForm()">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <!-- Error message display -->
+            <div id="error-message" class="error-message"></div>
+
+            <button type="submit" id="loginButton">Login</button>
+          </form>
+
+          <!-- Helpful account links -->
+          <p>Don't have an account? <a href="/signup">Sign up here</a></p>
+          <p>Forgot your password? <a href="/forgot-password">Reset Password</a></p>
+          <p>Need to verify your email? <a href="/resend-verification">Resend Verification</a></p>
+        </div>
+    </div>
+  </div>
+
+  <!-- Inline JS for client-side validation -->
+  <script>
+    function validateForm() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('error-message');
+        const loginButton = document.getElementById('loginButton');
+
+        // Clear any existing error message
+        errorMessage.style.display = 'none';
+        errorMessage.textContent = '';
+
+        // Check for empty input fields
+        if (!username || !password) {
+            errorMessage.textContent = 'Please fill in all fields';
+            errorMessage.style.display = 'block';
+            return false;
+        }
+
+        // Prevent duplicate submissions
+        loginButton.disabled = true;
+        loginButton.textContent = 'Logging in...';
+
+        return true;
+    }
+
+    // Fallback handler in case submission fails client-side
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        if (!validateForm()) {
+            e.preventDefault();
+            document.getElementById('loginButton').disabled = false;
+            document.getElementById('loginButton').textContent = 'Login';
+        }
+    });
+  </script>
+</body>
+</html>
