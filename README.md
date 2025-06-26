@@ -1,1 +1,1 @@
-pigement
+Pigment
