@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html>
 <head>
     <!-- Link to the custom stylesheet for budgeting page -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/budget.css') }}"/>
@@ -6,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
 </head>
 
-<body>
+<body class="light-mode">
     <div class="conMajor">
         <!-- Sidebar Navigation -->
         <div class="nav">
@@ -50,7 +52,8 @@
                 </li>
             </ul>
         </div>
-
+        <!-- Dark/Light Mode Toggle Button -->
+        <button id="mode-toggle" class="mode-toggle-btn" style="display:block;margin:24px auto 0 auto;position:relative;top:0;right:0;z-index:10;">☀️ Light Mode</button>
         <div class="mainPage">
             <div class="container">
                 <h1 class="title">Porkfolio</h1>
@@ -262,6 +265,32 @@
                         }
                         barChart.update(); // Refresh chart with new dataset
                     });
+                </script>
+
+                <script>
+                  // Dark/Light mode toggle logic
+                  function setMode(mode) {
+                    document.body.classList.remove('light-mode', 'dark-mode');
+                    document.body.classList.add(mode + '-mode');
+                    localStorage.setItem('colorMode', mode);
+                    document.getElementById('mode-toggle').innerHTML =
+                      (mode === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode');
+                  }
+
+                  // On page load, set mode from localStorage or default to light
+                  document.addEventListener('DOMContentLoaded', function() {
+                    // Clear any existing dark mode preference and force light mode as default
+                    const savedMode = localStorage.getItem('colorMode');
+                    if (!savedMode) {
+                      localStorage.setItem('colorMode', 'light');
+                    }
+                    const mode = savedMode || 'light';
+                    setMode(mode);
+
+                    document.getElementById('mode-toggle').onclick = function() {
+                      setMode(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+                    };
+                  });
                 </script>
 
             </div>

@@ -13,14 +13,14 @@
     <!-- Page title -->
     <title>Pigment </title>
   </head>
-  <body>
+  <body class="light-mode">
     <div class="container">
 
       <!-- Navigation bar -->
       <div class="nav">
         <div class="navLogo">
           <!-- Site logo and brand name -->
-          <img src="https://cdn.glitch.global/...png" alt="pig" />
+          <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(20).png?v=1736693562443" alt="pig" />
           <h3>Pigment</h3>
         </div>
 
@@ -58,7 +58,7 @@
           </li>
         </ul>
       </div>
-   
+      <button id="mode-toggle" class="mode-toggle-btn" style="display:block;margin:24px auto 0 auto;position:relative;top:0;right:0;z-index:10;">☀️ Light Mode</button>
       <!-- Main landing page content -->
       <div class="homePage">
         <!-- Left section with header and welcome message -->
@@ -66,7 +66,7 @@
           <div class="homeLeftContainer">
             <h1 class="homeHeader">Welcome to Pigment - The personal finance service</h1>
             <p class="textBlock">
-              We are committed to helping students from all walks of life take charge of their personal finances and build a foundation for a secure future. Managing money as a student can be challenging, with the demands of tuition, daily expenses, and savings goals. That’s why we provide the tools and resources to make budgeting, tracking expenses, and planning for the future simple and stress-free. Our mission is to equip students with the financial skills they need to thrive today and achieve their dreams tomorrow.
+              We are committed to helping students from all walks of life take charge of their personal finances and build a foundation for a secure future. Managing money as a student can be challenging, with the demands of tuition, daily expenses, and savings goals. That's why we provide the tools and resources to make budgeting, tracking expenses, and planning for the future simple and stress-free. Our mission is to equip students with the financial skills they need to thrive today and achieve their dreams tomorrow.
             </p>
           </div>
         </div>
@@ -100,7 +100,7 @@
       <div class="footerTop">
         <!-- Logo and tagline -->
         <div class="logoGroup">
-          <img src="https://cdn.glitch.global/...png"/>
+          <img src="https://cdn.glitch.global/ee3824e1-08b7-4d8e-b8e7-dfe1553e478d/Untitled%20design%20(20).png?v=1736693562443"/>
           <h2>Pigement</h2>
           <h2>-Personal Finance</h2>
         </div>
@@ -126,5 +126,31 @@
         <h6>@ Kitchen Coders | All Rights Reserved</h6>
       </div>
     </footer>
+
+    <script>
+      // Dark/Light mode toggle logic
+      function setMode(mode) {
+        document.body.classList.remove('light-mode', 'dark-mode');
+        document.body.classList.add(mode + '-mode');
+        localStorage.setItem('colorMode', mode);
+        document.getElementById('mode-toggle').innerHTML =
+          (mode === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode');
+      }
+
+      // On page load, set mode from localStorage or default to light
+      document.addEventListener('DOMContentLoaded', function() {
+        // Clear any existing dark mode preference and force light mode as default
+        const savedMode = localStorage.getItem('colorMode');
+        if (!savedMode) {
+          localStorage.setItem('colorMode', 'light');
+        }
+        const mode = savedMode || 'light';
+        setMode(mode);
+
+        document.getElementById('mode-toggle').onclick = function() {
+          setMode(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+        };
+      });
+    </script>
   </body>
 </html>
